@@ -3,6 +3,7 @@
 Deduplicate and merge entity mentions across documents using multi-method similarity scoring.
 
 [![npm version](https://img.shields.io/npm/v/entity-resolve.svg)](https://www.npmjs.com/package/entity-resolve)
+[![npm downloads](https://img.shields.io/npm/dt/entity-resolve.svg)](https://www.npmjs.com/package/entity-resolve)
 [![license](https://img.shields.io/npm/l/entity-resolve.svg)](https://github.com/SiluPanda/entity-resolve/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/entity-resolve.svg)](https://www.npmjs.com/package/entity-resolve)
 
