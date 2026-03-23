@@ -99,6 +99,37 @@ describe('resolve', () => {
     const result = resolve(entities)
     expect(result.entities.length).toBe(1)
   })
+
+  it('propertyMerge union adds new keys from mentions', () => {
+    const entities: EntityMention[] = [
+      { name: 'Acme Corp', type: 'organization', properties: { country: 'US' } },
+      { name: 'Acme Corp', type: 'organization', properties: { founded: 1990 } },
+    ]
+    const result = resolve(entities, { propertyMerge: 'union' })
+    expect(result.entities.length).toBe(1)
+    expect(result.entities[0].properties).toHaveProperty('country', 'US')
+    expect(result.entities[0].properties).toHaveProperty('founded', 1990)
+  })
+
+  it('propertyMerge firstWins ignores new properties from mentions', () => {
+    const entities: EntityMention[] = [
+      { name: 'Acme Corp', type: 'organization', properties: { country: 'US' } },
+      { name: 'Acme Corp', type: 'organization', properties: { country: 'UK', founded: 1990 } },
+    ]
+    const result = resolve(entities, { propertyMerge: 'firstWins' })
+    expect(result.entities.length).toBe(1)
+    expect(result.entities[0].properties).toHaveProperty('country', 'US')
+    expect(result.entities[0].properties).not.toHaveProperty('founded')
+  })
+
+  it('merges FBI abbreviation with stop words in full name', () => {
+    const entities: EntityMention[] = [
+      { name: 'FBI', type: 'organization' },
+      { name: 'Federal Bureau of Investigation', type: 'organization' },
+    ]
+    const result = resolve(entities)
+    expect(result.entities.length).toBe(1)
+  })
 })
 
 describe('similarity', () => {

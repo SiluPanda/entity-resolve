@@ -3,7 +3,7 @@ function jaro(a: string, b: string): number {
   if (a.length === 0 || b.length === 0) return 0.0
 
   const matchDistance = Math.floor(Math.max(a.length, b.length) / 2) - 1
-  const matchDistanceSafe = Math.max(0, matchDistance)
+  const matchDistanceSafe = Math.max(1, matchDistance)
 
   const aMatches = new Array<boolean>(a.length).fill(false)
   const bMatches = new Array<boolean>(b.length).fill(false)
@@ -287,12 +287,16 @@ export function exactMatch(a: string, b: string): number {
   return a === b ? 1.0 : 0.0
 }
 
+const STOP_WORDS = new Set([
+  'of', 'and', 'the', 'for', 'in', 'on', 'at', 'to', 'a', 'an',
+])
+
 export function abbreviationMatch(a: string, b: string): number {
   const isAbbrev = (abbr: string, full: string): boolean => {
     const abbrevUpper = abbr.toUpperCase()
     // abbr should be all single-word (no spaces) and shorter than full
     if (abbr.includes(' ') || abbr.length >= full.length) return false
-    const words = full.split(/\s+/)
+    const words = full.split(/\s+/).filter(w => !STOP_WORDS.has(w.toLowerCase()))
     if (abbrevUpper.length !== words.length) return false
     return [...abbrevUpper].every((ch, i) => words[i] && words[i][0].toUpperCase() === ch)
   }

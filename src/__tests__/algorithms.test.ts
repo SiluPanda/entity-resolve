@@ -137,4 +137,26 @@ describe('abbreviationMatch', () => {
   it('returns 0 for same-length strings', () => {
     expect(abbreviationMatch('abc', 'def')).toBe(0.0)
   })
+
+  it('handles stop words in full name (FBI)', () => {
+    expect(abbreviationMatch('FBI', 'Federal Bureau of Investigation')).toBe(0.9)
+  })
+
+  it('handles stop words in full name (USA)', () => {
+    expect(abbreviationMatch('USA', 'United States of America')).toBe(0.9)
+  })
+
+  it('handles stop words in full name (NASA)', () => {
+    expect(abbreviationMatch('NASA', 'National Aeronautics and Space Administration')).toBe(0.9)
+  })
+})
+
+describe('jaroWinkler short strings', () => {
+  it('returns non-zero for transposed 2-char strings', () => {
+    expect(jaroWinkler('ab', 'ba')).toBeGreaterThan(0)
+  })
+
+  it('returns non-zero for transposed 3-char strings', () => {
+    expect(jaroWinkler('abc', 'bac')).toBeGreaterThan(0)
+  })
 })
