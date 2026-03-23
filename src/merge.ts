@@ -39,9 +39,10 @@ export function mergeEntities(
   // Merge properties
   let properties: Record<string, unknown>
   if (propertyMerge === 'firstWins') {
-    properties = { ...(mention.properties ?? {}), ...canonical.properties }
+    // firstWins: only keep canonical's existing properties, ignore new properties from mentions
+    properties = { ...canonical.properties }
   } else {
-    // union: canonical wins on conflict
+    // union: merge all properties, canonical wins on key conflict
     properties = { ...(mention.properties ?? {}), ...canonical.properties }
   }
 

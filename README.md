@@ -425,8 +425,8 @@ resolve(entities, {
 
 | Strategy | Behavior |
 |----------|----------|
-| `'union'` | Merge all properties; canonical entity's values win on conflict (default) |
-| `'firstWins'` | Earlier entity's property values take precedence on conflict |
+| `'union'` | Merge all properties from all mentions; canonical entity's values win on key conflict (default) |
+| `'firstWins'` | Only keep the canonical (first-seen) entity's properties; new properties from later mentions are ignored |
 
 ---
 
